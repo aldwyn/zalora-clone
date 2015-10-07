@@ -13,18 +13,17 @@ using ZaloraClone101.Models;
 
 namespace ZaloraClone101.Controllers
 {
-    public class CartsController : ApiController
+    public class dbController : ApiController
     {
-        private CartContext carts = new CartContext();
-        private ItemContext items = new ItemContext();
+        private ItemContext db = new ItemContext();
 
-        // GET: api/Carts
-        public IQueryable<Cart> GetCarts()
+        // GET: api/db
+        public IQueryable<Cart> Getdb()
         {
-            return carts.Carts.Include("Item");
+            return db.Carts.Include("Item");
         }
 
-        // GET: api/Carts/5
+        // GET: api/db/5
         [ResponseType(typeof(Cart))]
         public IHttpActionResult GetCart(int id)
         {
@@ -32,49 +31,49 @@ namespace ZaloraClone101.Controllers
             cart.item_id = id;
             cart.user_id = User.Identity.GetUserId();
             cart.cart_date = DateTime.Now;
-            Item item = items.Items.Find(id);
+            Item item = db.Items.Find(id);
             if (item == null)
             {
                 return NotFound();
             }
-            var findCart = carts.Carts.Where(o => o.item_id.Equals(cart.item_id) && o.user_id.Equals(cart.user_id));
+            var findCart = db.Carts.Where(o => o.item_id.Equals(cart.item_id) && o.user_id.Equals(cart.user_id));
             if (findCart.Any())
             {
                 return NotFound();
             }
-            carts.Carts.Add(cart);
-            carts.SaveChanges();
-            return Ok(carts);
+            db.Carts.Add(cart);
+            db.SaveChanges();
+            return Ok(db);
         }
 
-        // DELETE: api/Carts/5
+        // DELETE: api/db/5
         [ResponseType(typeof(Cart))]
         public IHttpActionResult DeleteCart(int id)
         {
-            Cart cart = carts.Carts.Find(id);
-            if (carts == null)
+            Cart cart = db.Carts.Find(id);
+            if (db == null)
             {
                 return NotFound();
             }
 
-            carts.Carts.Remove(cart);
-            carts.SaveChanges();
+            db.Carts.Remove(cart);
+            db.SaveChanges();
 
-            return Ok(carts);
+            return Ok(db);
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                carts.Dispose();
+                db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool CartExists(int id)
         {
-            return carts.Carts.Count(e => e.item_id == id) > 0;
+            return db.Carts.Count(e => e.item_id == id) > 0;
         }
     }
 }

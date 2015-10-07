@@ -14,7 +14,7 @@ namespace ZaloraClone101.Controllers
     [Authorize]
     public class CartViewController : Controller
     {
-        private CartContext db = new CartContext();
+        private ItemContext db = new ItemContext();
 
         // GET: CartView
         public ActionResult Index()
