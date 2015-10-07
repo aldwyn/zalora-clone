@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="zalora" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\GoogleDrive\\DotNet\\visual\ studio\ 2015\\Projects\\ZaloraClone101\\ZaloraClone101\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^D:\\GoogleDrive\\DotNet\\visual\ studio\ 2015\\Projects\\ZaloraClone101\\ZaloraClone101\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=tcp:p8sweng7cb.database.windows.net,1433;Initial Catalog=zclone101db;User ID=aldwyn@p8sweng7cb;Password=Phoenix@16" tags="">
+    <parameterEntry kind="XmlFile" scope="D:\\GoogleDrive\\DotNet\\visual\ studio\ 2015\\Projects\\ZaloraClone101\\ZaloraClone101\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>

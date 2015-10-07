@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Home Page";
+    var offset = 0;
+    var nextOffset = 48;
+    var prevOffset = 0;
+    if (Request.QueryString != null && Request.QueryString.AllKeys.Contains("offset"))
+    {
+        offset = int.Parse(Request.QueryString["offset"]);
+        nextOffset = offset + 48;
+        if ((offset - 48) >= 0)
+        {
+            prevOffset = offset - 48;
+        }
+    }
+    var sortBy = "";
+    if (Request.QueryString != null && Request.QueryString.AllKeys.Contains("sortBy"))
+    {
+        sortBy = Request.QueryString["sortBy"];
+    }
+}
+
+<div class="page-header">
+    <h2>
+        ZaloraClone Items
+        <div class="pull-right">
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort by <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="?sortBy=price_desc">Price (High-Low)</a></li>
+                    <li><a href="?sortBy=price_asc">Price (Low-High)</a></li>
+                    <li><a href="?sortBy=activated_asc">Newest</a></li>
+                    <li><a href="?sortBy=activated_desc">Old Stocks</a></li>
+                    <li><a href="?sortBy=alphanum">Alphanumerical</a></li>
+                </ul>
+            </div>
+        </div>
+    </h2>
+</div>
+<nav>
+    <ul class="pager">
+        <li class="previous">
+            <a href="/?offset=@prevOffset&sortBy=@sortBy">
+                <span aria-hidden="true">&larr;</span> Previous
+            </a>
+        </li>
+        <li class="next">
+            <a href="/?offset=@nextOffset&sortBy=@sortBy">
+                Next <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<div style="display: inline-block">
+    <ul ng-controller="Items" class="list-group" id="itemList">
+        <li ng-repeat="item in items" class="col-xs-4 col-md-2 list-group-item" style="height: 420px; overflow-y: auto;">
+            <div class="thumbnail">
+                <img src="{{ item.image }}" />
+            </div>
+            <a href="/ItemView/Details/{{ item.id_catalog_config }}">
+                <h4>
+                    {{ item.name }} | <small>{{ item.brand }}</small>
+                </h4>
+            </a>
+            <button class="addToCart btn btn-warning btn-xs pull-right" ng-click="addToCart(item)">
+                <span class="glyphicon glyphicon-shopping-cart"></span>Add
+            </button>
+            <strong>Price: &#8369; </strong><span>{{ item.price }}</span>
+            <br /><strong ng-if="item.available_sizes != ''">Sizes: </strong><span>{{ item.available_sizes }}</span>
+
+        </li>
+    </ul>
+</div>
+
+<nav>
+    <ul class="pager">
+        <li class="previous">
+            <a href="/?offset=@prevOffset&sortBy=@sortBy">
+                <span aria-hidden="true">&larr;</span> Previous
+            </a>
+        </li>
+        <li class="next">
+            <a href="/?offset=@nextOffset&sortBy=@sortBy">
+                Next <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<script>
+    angular
+        .module('zclone', [])
+        .controller('Items', function ($scope, $http) {
+            var offset = @offset;
+            var sortBy = '@sortBy';
+            var itemsPromise = $http.get('/api/Items/?offset=' + offset + '&sortBy=' + sortBy);
+            itemsPromise.success(function (data, status, headers, config) {
+                    $scope.items = data;
+            });
+                $scope.addToCart = function (item) {
+                var itemCartPromise = $http.get('/api/Carts/' + item.id_catalog_config);
+                itemCartPromise.success(function (data, status, headers, config) {
+                    console.log(data);
+                });
+            };
+        });
+</script>
