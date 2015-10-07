@@ -40,11 +40,11 @@ namespace ZaloraClone101.Controllers
             }
             else if (sortBy.Equals("activated_asc"))
             {
-                items = db.Items.OrderBy(item => item.activated_at).Skip(offset).Take(48);
+                items = db.Items.OrderBy(item => DateTime.Parse(item.activated_at)).Skip(offset).Take(48);
             }
             else if (sortBy.Equals("activated_desc"))
             {
-                items = db.Items.OrderByDescending(item => item.activated_at).Skip(offset).Take(48);
+                items = db.Items.OrderByDescending(item => DateTime.Parse(item.activated_at)).Skip(offset).Take(48);
             }
             else if (sortBy.Equals("alphanum"))
             {
