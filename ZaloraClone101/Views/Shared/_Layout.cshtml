@@ -26,7 +26,20 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    
+                    <li>
+                        <form action="/" class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="searchFor" placeholder="Search for items..." />
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-warning">
+                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

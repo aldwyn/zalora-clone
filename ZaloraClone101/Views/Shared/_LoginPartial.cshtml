@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -7,22 +8,9 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
+        
         <li>
-            <form action="/" class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="searchFor" placeholder="Search for items..." />
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-warning">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </form>
-        </li>
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
         <li>
             <a href="/CartView">My Cart <span class="badge">@ViewBag.CartCount</span></a>
@@ -34,20 +22,6 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>
-            <form action="/" class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="searchFor" placeholder="Search for items..." />
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-warning">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </form>
-        </li>
         <li>
             <a href="/CartView">My Cart <span class="badge">0</span></a>
         </li>
