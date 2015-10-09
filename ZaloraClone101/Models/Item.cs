@@ -6,28 +6,15 @@ namespace ZaloraClone101.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Item
+    public partial class Item : MinimalItem
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int id_catalog_config { get; set; }
-
+        
         [StringLength(20)]
         public string sku { get; set; }
 
         public int? max_saving_percentage { get; set; }
 
-        [StringLength(100)]
-        public string brand { get; set; }
-
-        public string name { get; set; }
-
         public float? special_price { get; set; }
-
-        public float? price { get; set; }
-
-        [StringLength(20)]
-        public string activated_at { get; set; }
 
         public float? max_price { get; set; }
 
@@ -48,13 +35,9 @@ namespace ZaloraClone101.Models
 
         public float? max_special_price { get; set; }
 
-        public string link { get; set; }
-
         public string image { get; set; }
 
         public bool? is_new { get; set; }
 
-        [StringLength(255)]
-        public string available_sizes { get; set; }
     }
 }

@@ -9,6 +9,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/angular")
+    <script src="~/Scripts/zclone.js"></script>
     @RenderSection("scripts", required: false)
 
 </head>
@@ -43,15 +44,16 @@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
+            <div id="alert" style="position: fixed; margin: 20px 25%;"></div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - ZaloraClone <small class="text-muted">A Complete Clone of <a href="http://zalora.com.ph">Zalora</a>, where dataset was updated last October 7, 2015.
+                Copyright infringement was not intended; it was made for the ASP.NET developer's initial training-purposes only.</small></p>
         </footer>
     </div>
-
 </body>
 </html>

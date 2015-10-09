@@ -15,126 +15,148 @@
             </small>
         </h3>
     </div>
-    <div class="col-md-5">
-        <div class="thumbnail">
-            <img src="@Html.DisplayFor(model => model.image)" />
+    <div id="@Model.id_catalog_config" class="main-item-details">
+        <div class="col-md-5" style="margin-bottom: 20px;">
+            <div class="thumbnail">
+                <img src="@Html.DisplayFor(model => model.image)" />
+            </div>
+            <div class="btn-group">
+                @if (ViewBag.CartMatch == 0)
+                {
+                    <button class="addToCart btn btn-warning" onclick="addToCart('@Model.id_catalog_config')">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        <span class="toggleCartOpText">Add to Cart</span>
+                    </button>
+                }
+                else
+                {
+                    <button class="dropFromCart btn btn-danger" onclick="dropFromCart('@Model.id_catalog_config')">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        <span class="toggleCartOpText">Drop from Cart</span>
+                    </button>
+                }
+                <a class="btn btn-primary" target="_blank" href="http://www.zalora.com.ph/@Html.DisplayFor(model => model.link)">
+                    <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View on Zalora
+                </a>
+            </div>
         </div>
-        <div class="btn-group">
-            <button class="btn btn-warning">
-                <span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Add to Cart
-            </button>
-            <a class="btn btn-primary" target="_blank" href="http://www.zalora.com.ph/@Html.DisplayFor(model => model.link)">
-                <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View on Zalora
-            </a>
+        <div class="col-md-7">
+            <div id="alert">
+                @if (ViewBag.CartMatch != 0)
+                {
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        You already added this item to your Cart.
+                    </div>
+                }
+            </div>
+            <table class="table table-striped table-condensed">
+                <tr>
+                    <th>Stock-keeping Unit</th>
+                    <td><code>@Html.DisplayFor(model => model.sku)</code></td>
+                </tr>
+                @if (Model.max_saving_percentage != null)
+                {
+                    <tr>
+                        <th>Maximum Saving Percentage</th>
+                        <td>@Html.DisplayFor(model => model.max_saving_percentage)</td>
+                    </tr>
+                }
+                @if (Model.brand != null)
+                {
+                    <tr>
+                        <th>Brand / Provider</th>
+                        <td>@Html.DisplayFor(model => model.brand)</td>
+                    </tr>
+                }
+                @if (Model.special_price != null)
+                {
+                    <tr>
+                        <th>Special Price</th>
+                        <td>&#8369; @Html.DisplayFor(model => model.special_price)</td>
+                    </tr>
+                }
+                @if (Model.activated_at != null)
+                {
+                    <tr>
+                        <th>Activated at</th>
+                        <td>@String.Format("{0:MMMM d, yyyy H:mm:ss tt}", DateTime.Parse(Model.activated_at))</td>
+                    </tr>
+                }
+                @if (Model.max_price != null)
+                {
+                    <tr>
+                        <th>Maximum Price</th>
+                        <td>&#8369; @Html.DisplayFor(model => model.max_price)</td>
+                    </tr>
+                }
+                @if (Model.grouped_products != null)
+                {
+                    <tr>
+                        <th>Grouped Products</th>
+                        <td>
+                            @foreach (string p in Model.grouped_products.Split('|'))
+                            {
+                                <label class="label label-primary">@p</label>
+                            }
+                        </td>
+                    </tr>
+                }
+                @if (String.IsNullOrWhiteSpace(Model.sizesystembrand))
+                {
+                    <tr>
+                        <th>Size system brand</th>
+                        <td>@Html.DisplayFor(model => model.sizesystembrand)</td>
+                    </tr>
+                }
+                @if (Model.sizesystembrand_position != null)
+                {
+                    <tr>
+                        <th>Size system brand position</th>
+                        <td>@Html.DisplayFor(model => model.sizesystembrand_position)</td>
+                    </tr>
+                }
+                @if (Model.sub_cat_type_id != null)
+                {
+                    <tr>
+                        <th>Sub-category Type</th>
+                        <td>@Html.DisplayFor(model => model.sub_cat_type_id)</td>
+                    </tr>
+                }
+                @if (Model.gender_id != null)
+                {
+                    <tr>
+                        <th>Gender</th>
+                        <td>@Html.DisplayFor(model => model.gender_id)</td>
+                    </tr>
+                }
+                @if (Model.attribute_set_id != null)
+                {
+                    <tr>
+                        <th>Attribute Set</th>
+                        <td>@Html.DisplayFor(model => model.attribute_set_id)</td>
+                    </tr>
+                }
+                @if (Model.max_special_price != null)
+                {
+                    <tr>
+                        <th>Maximum Special Price</th>
+                        <td>&#8369; @Html.DisplayFor(model => model.max_special_price)</td>
+                    </tr>
+                }
+                @if (Model.available_sizes != null)
+                {
+                    <tr>
+                        <th>Available Sizes</th>
+                        <td>
+                            @foreach (string p in Model.available_sizes.Split('|'))
+                            {
+                                <label class="label label-primary">@p</label>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
-    </div>
-    <div class="col-md-7">
-        <table class="table table-striped table-condensed">
-            <tr>
-                <th>Stock-keeping Unit</th>
-                <td><code>@Html.DisplayFor(model => model.sku)</code></td>
-            </tr>
-            @if (Model.max_saving_percentage != null)
-            {
-                <tr>
-                    <th>Maximum Saving Percentage</th>
-                    <td>@Html.DisplayFor(model => model.max_saving_percentage)</td>
-                </tr>
-            }
-            @if (Model.brand != null)
-            {
-                <tr>
-                    <th>Brand / Provider</th>
-                    <td>@Html.DisplayFor(model => model.brand)</td>
-                </tr>
-            }
-            @if (Model.special_price != null)
-            {
-                <tr>
-                    <th>Special Price</th>
-                    <td>&#8369; @Html.DisplayFor(model => model.special_price)</td>
-                </tr>
-            }
-            @if (Model.activated_at != null)
-            {
-                <tr>
-                    <th>Activated at</th>
-                    <td>@String.Format("{0:MMMM d, yyyy H:mm:ss tt}", DateTime.Parse(Model.activated_at))</td>
-                </tr>
-            }
-            @if (Model.max_price != null)
-            {
-                <tr>
-                    <th>Maximum Price</th>
-                    <td>&#8369; @Html.DisplayFor(model => model.max_price)</td>
-                </tr>
-            }
-            @if (Model.grouped_products != null)
-            {
-                <tr>
-                    <th>Grouped Products</th>
-                    <td>
-                    @foreach (string p in Model.grouped_products.Split('|'))
-                    {
-                        <label class="label label-primary">@p</label>
-                    }
-                    </td>
-                </tr>
-            }
-            @if (String.IsNullOrWhiteSpace(Model.sizesystembrand))
-            {
-                <tr>
-                    <th>Size system brand</th>
-                    <td>@Html.DisplayFor(model => model.sizesystembrand)</td>
-                </tr>
-            }
-            @if (Model.sizesystembrand_position != null)
-            {
-                <tr>
-                    <th>Size system brand position</th>
-                    <td>@Html.DisplayFor(model => model.sizesystembrand_position)</td>
-                </tr>
-            }
-            @if (Model.sub_cat_type_id != null)
-            {
-                <tr>
-                    <th>Sub-category Type</th>
-                    <td>@Html.DisplayFor(model => model.sub_cat_type_id)</td>
-                </tr>
-            }
-            @if (Model.gender_id != null)
-            {
-                <tr>
-                    <th>Gender</th>
-                    <td>@Html.DisplayFor(model => model.gender_id)</td>
-                </tr>
-            }
-            @if (Model.attribute_set_id != null)
-            {
-                <tr>
-                    <th>Attribute Set</th>
-                    <td>@Html.DisplayFor(model => model.attribute_set_id)</td>
-                </tr>
-            }
-            @if (Model.max_special_price != null)
-            {
-                <tr>
-                    <th>Maximum Special Price</th>
-                    <td>&#8369; @Html.DisplayFor(model => model.max_special_price)</td>
-                </tr>
-            }
-            @if (Model.available_sizes != null)
-            {
-                <tr>
-                    <th>Available Sizes</th>
-                    <td>
-                    @foreach (string p in Model.available_sizes.Split('|'))
-                    {
-                        <label class="label label-primary">@p</label>
-                    }
-                    </td>
-                </tr>
-            }
-        </table>
-    </div>
+   </div>
 </div>

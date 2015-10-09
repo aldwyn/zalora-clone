@@ -144,6 +144,6 @@ D:\GoogleDrive\DotNet\visual studio 2015\Projects\ZaloraClone101\ZaloraClone101\
 D:\GoogleDrive\DotNet\visual studio 2015\Projects\ZaloraClone101\ZaloraClone101\bin\Microsoft.Owin.Security.Google.xml
 D:\GoogleDrive\DotNet\visual studio 2015\Projects\ZaloraClone101\ZaloraClone101\bin\Microsoft.Owin.Security.Twitter.xml
 D:\GoogleDrive\DotNet\visual studio 2015\Projects\ZaloraClone101\ZaloraClone101\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-D:\GoogleDrive\DotNet\visual studio 2015\Projects\ZaloraClone101\ZaloraClone101\obj\Debug\ZaloraClone101.csprojResolveAssemblyReference.cache
 D:\GoogleDrive\DotNet\visual studio 2015\Projects\ZaloraClone101\ZaloraClone101\obj\Debug\ZaloraClone101.dll
 D:\GoogleDrive\DotNet\visual studio 2015\Projects\ZaloraClone101\ZaloraClone101\obj\Debug\ZaloraClone101.pdb
+D:\GoogleDrive\DotNet\visual studio 2015\Projects\ZaloraClone101\ZaloraClone101\obj\Debug\ZaloraClone101.csprojResolveAssemblyReference.cache

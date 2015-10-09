@@ -1,0 +1,107 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Offset = 0;
+    ViewBag.NextOffset = 48;
+    ViewBag.PrevOffset = 0;
+    if (Request.QueryString != null && Request.QueryString.AllKeys.Contains("offset"))
+    {
+        ViewBag.Offset = int.Parse(Request.QueryString["offset"]);
+        ViewBag.NextOffset = ViewBag.Offset + 48;
+        if ((ViewBag.Offset - 48) >= 0)
+        {
+            ViewBag.PrevOffset = ViewBag.Offset - 48;
+        }
+    }
+    ViewBag.SortBy = "";
+    if (Request.QueryString != null && Request.QueryString.AllKeys.Contains("sortBy"))
+    {
+        ViewBag.SortBy = Request.QueryString["sortBy"];
+    }
+    ViewBag.SearchFor = "";
+    if (Request.QueryString != null && Request.QueryString.AllKeys.Contains("searchFor"))
+    {
+        ViewBag.SearchFor = Request.QueryString["searchFor"];
+    }
+    ViewBag.NavExtension = ((!String.IsNullOrEmpty(ViewBag.SortBy)) ? "&sortBy=" + ViewBag.SortBy : "") +
+        ((!String.IsNullOrEmpty(ViewBag.SearchFor)) ? "&searchFor=" + ViewBag.SearchFor : "");
+}
+
+<div class="page-header">
+    <h2>
+        @ViewBag.PageHeader
+        <div class="pull-right" style="display: inline-block">
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort by <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="?sortBy=price_desc">Price (High-Low)</a></li>
+                    <li><a href="?sortBy=price_asc">Price (Low-High)</a></li>
+                    <li><a href="?sortBy=activated_asc">Newest</a></li>
+                    <li><a href="?sortBy=activated_desc">Old Stocks</a></li>
+                    <li><a href="?sortBy=alphanum">Alphanumerical</a></li>
+                </ul>
+            </div>
+        </div>
+    </h2>
+</div>
+
+<nav>
+    <ul class="pager">
+        <li class="previous">
+            <a href="/?offset=@ViewBag.PrevOffset@ViewBag.NavExtension">
+                <span aria-hidden="true">&larr;</span> Previous
+            </a>
+        </li>
+        <li class="next">
+            <a href="/?offset=@ViewBag.NextOffset@ViewBag.NavExtension">
+                Next <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div style="display: inline-block">
+    <ul ng-controller="Items" class="list-group" id="itemList">
+        <li ng-repeat="item in items" class="col-xs-4 col-md-2 list-group-item" id="{{ item.id_catalog_config }}" style="height: 420px; overflow-y: auto;">
+            <div class="thumbnail">
+                <img src="https://zclonestorage.blob.core.windows.net/product-images/{{ item.id_catalog_config }}" />
+            </div>
+            <button class="addToCart btn btn-{{ item.cart_button_color }} btn-xs pull-right" ng-click="toggleCartOp(item)">
+                <span class="glyphicon glyphicon-shopping-cart"></span>
+                <span class="toggleCartOpText">{{ item.cart_text }}</span>
+            </button>
+            <a href="/ItemView/Details/{{ item.id_catalog_config }}">
+                <h4>
+                    {{ item.name }} | <small>{{ item.brand }}</small>
+                </h4>
+            </a>
+            <span><strong>Price: &#8369; </strong>{{ item.price }}</span>
+            <br />
+            <span ng-if="item.available_sizes != ''"><strong>Sizes: </strong>{{ item.available_sizes }}</span>
+        </li>
+    </ul>
+</div>
+
+<nav>
+    <ul class="pager">
+        <li class="previous">
+            <a href="/?offset=@ViewBag.PrevOffset@ViewBag.NavExtension">
+                <span aria-hidden="true">&larr;</span> Previous
+            </a>
+        </li>
+        <li class="next">
+            <a href="/?offset=@ViewBag.NextOffset@ViewBag.NavExtension">
+                Next <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<script>
+    var offset = @ViewBag.Offset;
+    var sortBy = '@ViewBag.SortBy';
+    var searchFor = '@ViewBag.SearchFor';
+    var webService = '@ViewBag.WebService';
+</script>

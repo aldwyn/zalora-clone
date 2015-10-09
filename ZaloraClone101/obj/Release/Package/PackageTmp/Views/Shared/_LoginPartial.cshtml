@@ -13,7 +13,7 @@
             @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
         <li>
-            <a href="/CartView">My Cart <span class="badge">@ViewBag.CartCount</span></a>
+            <a href="/CartView">My Cart <span class="badge" id="cartItemsCount"></span></a>
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>

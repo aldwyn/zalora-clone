@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using ZaloraClone101.Models;
 
@@ -23,6 +21,9 @@ namespace ZaloraClone101.Controllers
         // GET: ItemView/Details/5
         public ActionResult Details(int? id)
         {
+            var user_id = User.Identity.GetUserId();
+            ViewBag.CartCount = db.Carts.Where(o => o.user_id == user_id).Count();
+            ViewBag.CartMatch = db.Carts.Where(o => o.item_id == id && o.user_id == user_id).Count();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

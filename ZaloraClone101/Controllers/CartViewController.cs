@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using ZaloraClone101.Models;
@@ -24,10 +22,15 @@ namespace ZaloraClone101.Controllers
             return View();
         }
 
-        public int CartCount()
+        public JsonResult CartsItemsId()
         {
+            Dictionary<string, object> cartItems = new Dictionary<string, object>();
             var user_id = User.Identity.GetUserId();
-            return db.Carts.Where(item => item.user_id == user_id).Count();
+            foreach (Cart cart in db.Carts.Where(item => item.user_id == user_id))
+            {
+                cartItems.Add(cart.item_id.ToString(), null);
+            }
+            return Json(cartItems, JsonRequestBehavior.AllowGet);
         }
 
         // GET: CartView/Details/5

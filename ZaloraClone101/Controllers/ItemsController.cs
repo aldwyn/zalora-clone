@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ZaloraClone101.Models;
@@ -17,47 +15,62 @@ namespace ZaloraClone101.Controllers
         private ItemContext db = new ItemContext();
 
         // GET: api/Items
-        public IQueryable<Item> GetItems(int offset = 0, string sortBy = "", string searchFor = "")
+        public IQueryable<MinimalItem> GetItems(int offset = 0, string sortBy = "", string searchFor = "")
         {
             if (String.IsNullOrEmpty(sortBy))
             {
                 sortBy = "";
             }
-            var items = db.Items.OrderBy(item => item.id_catalog_config).Skip(offset).Take(48);
+            var items = MinimizeItemResult(db.Items.OrderBy(item => item.id_catalog_config), offset);
             if (!String.IsNullOrEmpty(searchFor))
             {
-                items = db.Items
+                items = MinimizeItemResult(db.Items
                     .Where(item => item.name.Contains(searchFor) || item.brand.Contains(searchFor))
-                    .OrderBy(item => item.id_catalog_config).Skip(offset).Take(48);
+                    .OrderBy(item => item.id_catalog_config), offset);
             }
             if (sortBy.Equals("price_desc"))
             {
-                items = db.Items.OrderByDescending(item => item.price).Skip(offset).Take(48);
+                items = MinimizeItemResult(db.Items.OrderByDescending(item => item.price), offset);
             }
             else if (sortBy.Equals("price_asc"))
             {
-                items = db.Items.OrderBy(item => item.price).Skip(offset).Take(48);
+                items = MinimizeItemResult(db.Items.OrderBy(item => item.price), offset);
             }
             else if (sortBy.Equals("activated_asc"))
             {
-                items = db.Items.OrderBy(item => DateTime.Parse(item.activated_at)).Skip(offset).Take(48);
+                items = MinimizeItemResult(db.Items.OrderBy(item => item.ActivatedAt()), offset);
             }
             else if (sortBy.Equals("activated_desc"))
             {
-                items = db.Items.OrderByDescending(item => DateTime.Parse(item.activated_at)).Skip(offset).Take(48);
+                items = MinimizeItemResult(db.Items.OrderByDescending(item => item.ActivatedAt()), offset);
             }
             else if (sortBy.Equals("alphanum"))
             {
-                items = db.Items.OrderBy(item => item.name).Skip(offset).Take(48);
+                items = MinimizeItemResult(db.Items.OrderBy(item => item.name), offset);
             }
             return items;
+        }
+
+        public IQueryable<MinimalItem> MinimizeItemResult(IQueryable<Item> partialContext, int offset)
+        {
+            return partialContext
+                .Skip(offset).Take(48)
+                .Select(item =>
+                new MinimalItem {
+                    id_catalog_config = item.id_catalog_config,
+                    name = item.name,
+                    brand = item.brand,
+                    link = item.link,
+                    price = item.price,
+                    available_sizes = item.available_sizes
+                });
         }
 
         // GET: api/Items/5
         [ResponseType(typeof(Item))]
         public IHttpActionResult GetItem(int id)
         {
-            Item item = db.Items.Find(id);
+            Item item = (Item) db.Items.Find(id);
             if (item == null)
             {
                 return NotFound();
@@ -135,7 +148,7 @@ namespace ZaloraClone101.Controllers
         [ResponseType(typeof(Item))]
         public IHttpActionResult DeleteItem(int id)
         {
-            Item item = db.Items.Find(id);
+            Item item = (Item) db.Items.Find(id);
             if (item == null)
             {
                 return NotFound();

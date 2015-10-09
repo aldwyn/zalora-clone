@@ -1,31 +1,27 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ZaloraClone101.Models;
 
 namespace ZaloraClone101.Controllers
 {
-    public class dbController : ApiController
+    [Authorize]
+    public class CartsController : ApiController
     {
         private ItemContext db = new ItemContext();
 
-        // GET: api/db
-        public IQueryable<Cart> Getdb()
+        // GET: api/Carts
+        public IQueryable<Cart> GetCarts()
         {
             return db.Carts.Include("Item");
         }
 
-        // GET: api/db/5
+        // POST: api/Carts/5
         [ResponseType(typeof(Cart))]
-        public IHttpActionResult GetCart(int id)
+        public IHttpActionResult PostCart(int id)
         {
             Cart cart = new Cart();
             cart.item_id = id;
@@ -43,15 +39,16 @@ namespace ZaloraClone101.Controllers
             }
             db.Carts.Add(cart);
             db.SaveChanges();
-            return Ok(db);
+            return Ok(item);
         }
 
-        // DELETE: api/db/5
+        // DELETE: api/Carts/5
         [ResponseType(typeof(Cart))]
         public IHttpActionResult DeleteCart(int id)
         {
-            Cart cart = db.Carts.Find(id);
-            if (db == null)
+            string user_id = User.Identity.GetUserId();
+            Cart cart = (Cart) db.Carts.Where(o => o.item_id == id && o.user_id == user_id).Single();
+            if (cart == null)
             {
                 return NotFound();
             }
@@ -59,7 +56,7 @@ namespace ZaloraClone101.Controllers
             db.Carts.Remove(cart);
             db.SaveChanges();
 
-            return Ok(db);
+            return Ok(cart);
         }
 
         protected override void Dispose(bool disposing)
