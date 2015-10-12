@@ -59,13 +59,14 @@ function addToCart(item_id) {
             } else {
                 var message = '<strong>Way to go!</strong> You added <a href="/ItemView/Details/'
                     + data.id_catalog_config + '" class="alert-link">' + data.name + '</a> to your Cart.';
-                $('#' + item_id + ' .addToCart')
+                $('#' + item_id + ' button')
                     .removeClass('btn-warning')
                     .addClass('btn-danger')
                     .attr('onclick', 'dropFromCart("' + item_id + '")')
                     .addClass('dropFromCart')
                     .removeClass('addToCart');
-                $('#' + item_id + ' span.toggleCartOpText').text($('.main-item-details').length > 0 ? 'Drop from Cart' : 'Drop');
+                $('#' + item_id + ' button > span.toggleCartOpText')
+                    .text($('.main-item-details').length > 0 ? 'Drop from Cart' : 'Drop');
                 $('#alert').empty().append(displayAlert('success', message));
             }
         }
@@ -82,13 +83,14 @@ function dropFromCart(item_id) {
                 $('#alert').empty().append(displayAlert('danger', message));
             } else {
                 var message = '<strong>Heart-breaking!</strong> You dropped this item from your Cart.';
-                $('#' + item_id + ' .dropFromCart')
+                $('#' + item_id + ' button')
                     .removeClass('btn-danger')
                     .addClass('btn-warning')
                     .attr('onclick', 'addToCart("' + item_id + '")')
                     .addClass('addToCart')
                     .removeClass('dropFromCart');
-                $('#' + item_id + ' span.toggleCartOpText').text($('.main-item-details').length > 0 ? 'Add to Cart' : 'Add');
+                $('#' + item_id + ' button > span.toggleCartOpText')
+                    .text($('.main-item-details').length > 0 ? 'Add to Cart' : 'Add');
                 $('#alert').empty().append(displayAlert('warning', message));
             }
         }

@@ -26,9 +26,14 @@ namespace ZaloraClone101.Controllers
         {
             Dictionary<string, object> cartItems = new Dictionary<string, object>();
             var user_id = User.Identity.GetUserId();
-            foreach (Cart cart in db.Carts.Where(item => item.user_id == user_id))
+            foreach (Cart cart in db.Carts.Where(item => item.user_id == user_id).Distinct())
             {
-                cartItems.Add(cart.item_id.ToString(), null);
+                try
+                {
+                    cartItems.Add(cart.item_id.ToString(), null);
+                }
+                catch { }
+                
             }
             return Json(cartItems, JsonRequestBehavior.AllowGet);
         }
